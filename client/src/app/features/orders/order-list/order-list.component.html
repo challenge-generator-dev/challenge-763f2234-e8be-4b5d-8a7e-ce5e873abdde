@@ -1,0 +1,38 @@
+<section class="order-list">
+  <header class="order-list__header">
+    <h2 class="order-list__title">Órdenes en Tiempo Real</h2>
+    <span class="order-list__subtitle">Estado actualizado de todas las órdenes</span>
+  </header>
+
+  <div class="order-list__content">
+    @if (orderService.orders().length === 0) {
+      <div class="order-list__empty">
+        <svg class="order-list__empty-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <p class="order-list__empty-text">No hay órdenes disponibles</p>
+        <p class="order-list__empty-hint">Conectando al stream de eventos...</p>
+      </div>
+    } @else {
+      <ul class="order-list__items">
+        @for (order of orderService.orders(); track order.orderId) {
+          <li class="order-list__item">
+            <div class="order-list__item-main">
+              <span class="order-list__item-id">{{ order.orderId }}</span>
+              <app-order-status [status]="order.status"></app-order-status>
+            </div>
+            <time class="order-list__item-timestamp" [attr.datetime]="order.timestamp.toISOString()">
+              {{ order.timestamp | date:'medium' }}
+            </time>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+
+  <footer class="order-list__footer">
+    <span class="order-list__count">
+      Total: {{ orderService.orders().length }} órdenes
+    </span>
+  </footer>
+</section>

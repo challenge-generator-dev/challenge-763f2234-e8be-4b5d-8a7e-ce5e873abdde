@@ -1,0 +1,27 @@
+<article class="order-status" [ngClass]="statusClass()" [class.order-status--recent]="isRecent()">
+  <header class="order-status__header">
+    <span class="order-status__icon" aria-hidden="true">{{ statusIcon() }}</span>
+    <span class="order-status__order-id">Orden: {{ orderEvent.orderId }}</span>
+  </header>
+  
+  <div class="order-status__content">
+    <div class="order-status__status-row">
+      <span class="order-status__label">Estado:</span>
+      <span class="order-status__value">{{ orderEvent.status }}</span>
+    </div>
+    
+    <div class="order-status__timestamp-row">
+      <span class="order-status__label">Actualizado:</span>
+      <time class="order-status__timestamp" [attr.datetime]="orderEvent.timestamp">
+        {{ formattedTimestamp() }}
+      </time>
+    </div>
+  </div>
+
+  <footer class="order-status__footer" *ngIf="isRecent()">
+    <span class="order-status__live-indicator" aria-label="Actualización en tiempo real">
+      <span class="order-status__live-dot"></span>
+      En vivo
+    </span>
+  </footer>
+</article>
